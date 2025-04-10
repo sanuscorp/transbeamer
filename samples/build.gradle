@@ -1,0 +1,58 @@
+plugins {
+    id 'application'
+    id 'java'
+    alias(libs.plugins.avro)
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+dependencies {
+    implementation project(':lib')
+    implementation libs.avro
+    implementation libs.bundles.beam
+}
+
+// Create custom tasks for each sample application
+def createSampleTask(String taskName, String mainClassName) {
+    tasks.register(taskName, JavaExec) {
+        description = "Run the $mainClassName application"
+        mainClass = mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        group = "application"
+    }
+}
+
+createSampleTask(
+    'welcome',
+    'com.sanuscorp.transbeamer.samples.Welcome'
+)
+
+createSampleTask(
+    'createParquet',
+    'com.sanuscorp.transbeamer.samples.CreateParquet'
+)
+
+createSampleTask(
+    'convertParquetToCsv',
+    'com.sanuscorp.transbeamer.samples.ConvertParquetToCsv'
+)
+tasks.named('convertParquetToCsv') {
+    dependsOn 'createParquet'
+}
+
+createSampleTask(
+    'convertCsvToAvro',
+    'com.sanuscorp.transbeamer.samples.ConvertCsvToAvro'
+)
+tasks.named('convertCsvToAvro') {
+    dependsOn 'convertParquetToCsv'
+}

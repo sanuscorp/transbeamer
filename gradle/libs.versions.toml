@@ -1,0 +1,58 @@
+[versions]
+# Define versions
+avro = "1.11.4"
+apache-beam = "2.63.0"
+hadoop = "3.3.2"
+log4j = "2.24.1"
+junit = "5.10.0"
+mockito = "5.5.0"
+checker-qual = "3.46.0"
+slf4j = "2.0.9"
+assertj = "3.25.1"
+opencsv = "5.9"
+
+# Plugin versions
+avro-plugin = "1.8.0"
+shadow-plugin = "8.3.0"
+
+[libraries]
+
+# Apache Beam dependencies
+beam-core = { module = "org.apache.beam:beam-sdks-java-core", version.ref = "apache-beam" }
+beam-avro = { module = "org.apache.beam:beam-sdks-java-extensions-avro", version.ref = "apache-beam" }
+beam-direct-runner = { module = "org.apache.beam:beam-runners-direct-java", version.ref = "apache-beam" }
+beam-parquet = { module = "org.apache.beam:beam-sdks-java-io-parquet", version.ref = "apache-beam" }
+beam-aws-sdk = { module = "org.apache.beam:beam-sdks-java-io-amazon-web-services2", version.ref = "apache-beam" }
+beam-aws-kinesis = { module = "com.amazonaws:aws-kinesisanalytics-runtime", version = "1.2.0" }
+beam-flink-runner = { module = "org.apache.beam:beam-runners-flink-1.19", version.ref = "apache-beam" }
+
+# Hadoop dependencies
+hadoop-common = { module = "org.apache.hadoop:hadoop-common", version.ref = "hadoop" }
+hadoop-mapreduce = { module = "org.apache.hadoop:hadoop-mapreduce-client-core", version.ref = "hadoop" }
+
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual" }
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
+avro = { module = "org.apache.avro:avro", version.ref = "avro" }
+opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv"}
+
+# Test dependencies
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-junit = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+
+
+[plugins]
+jacoco = { id = "jacoco" }
+avro = { id = "com.github.davidmc24.gradle.plugin.avro", version.ref = "avro-plugin" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow-plugin"}
+
+[bundles]
+beam = ["beam-core", "beam-avro", "beam-direct-runner", "beam-parquet", "beam-aws-sdk", "beam-flink-runner"]
+hadoop = ["hadoop-common", "hadoop-mapreduce"]
+log4j = ["log4j-api", "log4j-core"]
+testing = ["junit-api", "junit-engine", "junit-params", "mockito-core", "mockito-junit", "assertj"]

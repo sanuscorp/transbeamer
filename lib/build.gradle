@@ -1,0 +1,87 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'checkstyle'
+    id 'pmd'
+    alias(libs.plugins.jacoco)
+    alias(libs.plugins.avro)
+}
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+    mavenLocal()
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+tasks.withType(JavaCompile).configureEach {
+    // Add the -parameters flag to the javac compiler, which allows the
+    // @DefaultSchema(...) and other annotations to work
+    options.compilerArgs << '-parameters'
+}
+
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+
+    // Always run tests, even when nothing changed.
+    dependsOn 'cleanTest'
+
+    // Set the log4j2 configuration file
+    systemProperty 'log4j.configurationFile', "${project.projectDir}/src/main/resources/log4j2.xml"
+
+    // Show test results.
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+checkstyle {
+    toolVersion = "10.12.2"
+    configDirectory = file("./config/checkstyle")
+}
+
+pmd {
+    toolVersion = "6.55.0"
+    ruleSets = []
+    ruleSetFiles = files("./config/pmd/pmd.xml")
+}
+
+// Alter dependencies so that "check" only lints, and "test" only tests, and
+// "build" does both.
+check.dependsOn = []
+build.dependsOn = [check, test]
+
+dependencies {
+    implementation libs.bundles.beam
+    implementation libs.bundles.hadoop
+
+    // Common/Utility dependencies
+    implementation libs.bundles.log4j
+    implementation libs.checker.qual
+    implementation libs.slf4j.nop
+    implementation libs.opencsv
+
+    // Avro dependencies
+    implementation libs.avro
+
+    // Test Dependencies
+    testImplementation libs.bundles.testing
+}
+
+// Run lint tasks on check
+tasks.named('check') {
+    dependsOn 'checkstyleMain', 'checkstyleTest', 'pmdMain', 'pmdTest'
+}

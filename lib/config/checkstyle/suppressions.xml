@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<!-- Suppressions applied to checkstyle as run by Gradle Build -->
+<suppressions>
+
+    <!-- Do not apply any checks to generated code -->
+    <suppress files="[\\/]generated-main-avro-java[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]generated-main-freemarker-java[\\/]" checks="[a-zA-Z0-9]*"/>
+
+    <!-- Allow unusual method & type names in tests for JUnit5 readability -->
+    <suppress files="[\\/]test[\\/**/*Tests.java]" checks="MethodName"/>
+    <suppress files="[\\/]test[\\/**/*Tests.java]" checks="TypeName"/>
+    <suppress files="[\\/]test[\\/**/*Tests.java]" checks="MemberName"/>
+
+    <!-- Suppress indentation check for generic closing brackets -->
+    <suppress checks="Indentation"
+              files=".*\.java"
+              message="'>' has incorrect indentation level \d+, expected level should be \d+"
+    />
+    <!--<suppress checks="NewlineAtEndOfFileCheck" files="Sample.java"/>-->
+
+    <!--<suppress message="Missing a Javadoc comment."/>-->
+
+</suppressions>

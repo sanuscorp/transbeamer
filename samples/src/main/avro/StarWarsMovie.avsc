@@ -1,0 +1,10 @@
+{
+  "namespace": "com.sanuscorp.transbeamer.samples.avro",
+  "type": "record",
+  "name": "StarWarsMovie",
+  "fields": [
+    {"name": "year", "type": "int"},
+    {"name": "title", "type": "string"},
+    {"name": "rating", "type": "double"}
+  ]
+}
