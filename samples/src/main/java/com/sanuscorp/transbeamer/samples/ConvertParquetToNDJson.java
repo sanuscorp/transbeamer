@@ -16,14 +16,14 @@ public class ConvertParquetToNDJson {
         // Transform the Parquet file to an Avro file
         pipeline.apply(
             TransBeamer.newReader(
-                    new ParquetFormat(),
+                    ParquetFormat.create(),
                     "build",
                     StarWarsMovie.class
                 )
                 .withFilePrefix("StarWars")
         ).apply(
             TransBeamer.newWriter(
-                    new NDJsonFormat(),
+                    NDJsonFormat.create(),
                     "build",
                     StarWarsMovie.class
                 )
@@ -34,7 +34,6 @@ public class ConvertParquetToNDJson {
         // Run the pipeline
         pipeline.run().waitUntilFinish();
 
-        System.out.println("Conversion completed successfully!");
         System.out.println(
             "ND-JSON file created at: build/StarWarsAvro-*.ndjson"
         );

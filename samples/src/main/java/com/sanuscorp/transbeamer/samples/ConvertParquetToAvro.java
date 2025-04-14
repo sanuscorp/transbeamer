@@ -25,25 +25,22 @@ public class ConvertParquetToAvro {
         // Transform the Parquet file to an Avro file
         pipeline.apply(
             TransBeamer.newReader(
-                new ParquetFormat(),
-                    "build",
-                    StarWarsMovie.class
-                )
-                .withFilePrefix("StarWars")
+                ParquetFormat.create(),
+                "build",
+                StarWarsMovie.class
+            ).withFilePrefix("StarWars")
         ).apply(
             TransBeamer.newWriter(
-                new AvroFormat(),
-                    "build",
-                    StarWarsMovie.class
-            )
-                .withNumShards(1)
+                AvroFormat.create(),
+                "build",
+                StarWarsMovie.class
+            ).withNumShards(1)
                 .withFilePrefix("StarWars")
         );
 
         // Run the pipeline
         pipeline.run().waitUntilFinish();
 
-        System.out.println("Conversion completed successfully!");
         System.out.println("Avro file created at: build/StarWarsAvro-*.avro");
     }
 }

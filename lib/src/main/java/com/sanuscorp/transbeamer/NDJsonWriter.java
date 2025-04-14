@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.beam.sdk.io.FileIO;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -19,7 +20,7 @@ public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
 
     private Gson gson;
 
-    private OutputStreamWriter writer;
+    private BufferedWriter bufferedWriter;
 
     public NDJsonWriter(final Class<T> clazz) {
         this.clazz = clazz;
@@ -38,19 +39,26 @@ public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
             .create();
 
         final OutputStream stream = Channels.newOutputStream(channel);
-        writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+
+        final OutputStreamWriter writer = new OutputStreamWriter(
+            stream,
+            StandardCharsets.UTF_8
+        );
+        bufferedWriter = new BufferedWriter(writer);
+
     }
 
     @Override
     public void write(T element) throws IOException {
-        gson.toJson(element, clazz, writer);
-        writer.write("\n");
+        gson.toJson(element, clazz, bufferedWriter);
+        bufferedWriter.write("\n");
     }
 
     @Override
     public void flush() throws IOException {
-        if (writer != null) {
-            writer.flush();
+        if (bufferedWriter != null) {
+            bufferedWriter.flush();
+            bufferedWriter.close();
         }
     }
 }

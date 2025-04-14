@@ -1,7 +1,5 @@
 package com.sanuscorp.transbeamer.samples;
 
-import com.sanuscorp.transbeamer.FormatRegistry;
-
 /**
  * A simple Hello World application demonstrating the TransBeamer library.
  */

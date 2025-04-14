@@ -23,14 +23,14 @@ public class ConvertParquetToCsv {
         Pipeline pipeline = Pipeline.create();
         pipeline.apply(
             TransBeamer.newReader(
-                new ParquetFormat(),
+                ParquetFormat.create(),
                 "build",
                 StarWarsMovie.class
             )
             .withFilePrefix("StarWars")
         ).apply(
             TransBeamer.newWriter(
-                new CsvFormat(),
+                CsvFormat.create(),
                 "build",
                 StarWarsMovie.class
             )
@@ -39,6 +39,6 @@ public class ConvertParquetToCsv {
         );
         pipeline.run().waitUntilFinish();
 
-        System.out.println("Conversion completed successfully!");
+        System.out.println("CSV file created at: build/StarWarsCsv-*.csv");
     }
 }

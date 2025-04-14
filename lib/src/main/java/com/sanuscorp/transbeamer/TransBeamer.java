@@ -18,15 +18,6 @@ public class TransBeamer {
         );
     }
 
-
-    /**
-     * Add a new format to the library.
-     * @param format The format implementation to add.
-     */
-    public static void addFormat(FileFormat format) {
-        FormatRegistry.addFormat(format);
-    }
-
     /**
      * Create a new TransBeamer {@link FileReader} that can ingest data of a given
      * format at a given location into a given Avro class.

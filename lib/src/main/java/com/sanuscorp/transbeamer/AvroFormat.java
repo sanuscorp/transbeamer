@@ -9,7 +9,15 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class AvroFormat implements FileFormat {
+public final class AvroFormat implements FileFormat {
+
+    public static AvroFormat create() {
+        return new AvroFormat();
+    }
+
+    private AvroFormat() {
+        // Intentionally empty
+    }
 
     @Override
     public String getName() {

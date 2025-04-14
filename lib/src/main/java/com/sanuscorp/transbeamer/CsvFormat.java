@@ -8,7 +8,15 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class CsvFormat implements FileFormat {
+public final class CsvFormat implements FileFormat {
+
+    public static CsvFormat create() {
+        return new CsvFormat();
+    }
+
+    private CsvFormat() {
+        // Intentionally empty
+    }
 
     @Override
     public String getName() {

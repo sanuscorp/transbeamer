@@ -3,8 +3,32 @@ plugins {
     id 'idea'
     id 'checkstyle'
     id 'pmd'
+    id 'maven-publish'
     alias(libs.plugins.jacoco)
     alias(libs.plugins.avro)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = "$LIBRARY_GROUP"
+            artifactId = "$LIBRARY_NAME"
+            version = "$LIBRARY_VERSION"
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/sanuscorp/transbeamer"
+            credentials {
+                username = "$GITHUB_ORG"
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 repositories {

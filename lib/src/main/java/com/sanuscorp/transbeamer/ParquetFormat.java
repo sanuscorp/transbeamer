@@ -8,7 +8,16 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class ParquetFormat implements FileFormat {
+public final class ParquetFormat implements FileFormat {
+
+    public static ParquetFormat create() {
+        return new ParquetFormat();
+    }
+
+    private ParquetFormat() {
+        // Intentionally empty
+    }
+
     @Override
     public String getName() {
         return "Parquet";

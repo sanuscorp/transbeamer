@@ -8,11 +8,19 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class NDJsonFormat implements FileFormat {
+public final class NDJsonFormat implements FileFormat {
+
+    public static NDJsonFormat create() {
+        return new NDJsonFormat();
+    }
+
+    private NDJsonFormat() {
+        // Intentionally empty
+    }
 
     @Override
     public String getName() {
-        return "NDJson";
+        return "ND-JSON";
     }
 
     @Override

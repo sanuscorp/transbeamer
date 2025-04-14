@@ -11,28 +11,27 @@ public class ConvertCsvToAvro {
     public static void main(String[] args) {
         System.out.println("Converting StarWars CSV to Avro...");
 
-
-        // Read in Parquet, write out CSV
         Pipeline pipeline = Pipeline.create();
         pipeline.apply(
             TransBeamer.newReader(
-                    new CsvFormat(),
-                    "build",
-                    StarWarsMovie.class
-                )
-                .withFilePrefix("StarWars")
+                CsvFormat.create(),
+                "build",
+                StarWarsMovie.class
+            ).withFilePrefix("StarWars")
         ).apply(
             TransBeamer.newWriter(
-                    new AvroFormat(),
-                    "build",
-                    StarWarsMovie.class
-                )
+                AvroFormat.create(),
+                "build",
+                StarWarsMovie.class
+            )
                 .withNumShards(1)
                 .withFilePrefix("StarWars")
         );
         pipeline.run().waitUntilFinish();
 
-        System.out.println("Conversion completed successfully!");
+        System.out.println(
+            "Avro file created at: build/StarWarsAvro-*.avro"
+        );
 
     }
 }

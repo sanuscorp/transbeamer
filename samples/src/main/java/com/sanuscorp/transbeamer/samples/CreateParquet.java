@@ -1,6 +1,5 @@
 package com.sanuscorp.transbeamer.samples;
 
-import com.sanuscorp.transbeamer.BuiltInFormat;
 import com.sanuscorp.transbeamer.ParquetFormat;
 import com.sanuscorp.transbeamer.TransBeamer;
 import com.sanuscorp.transbeamer.samples.avro.StarWarsMovie;
@@ -47,7 +46,7 @@ public class CreateParquet {
         // Write the PCollection to a Parquet file
         movieCollection.apply(
             TransBeamer.newWriter(
-                new ParquetFormat(),
+                ParquetFormat.create(),
                 "build",
                 StarWarsMovie.class
             )
