@@ -19,16 +19,15 @@ public class Welcome {
         // Display information about the TransBeamer library
         System.out.println("\nSome Samples:");
         System.out.println("----------------------------");
-        System.out.println("Generate a Parquet file from memory:");
-        System.out.println("  ./gradlew :samples:createParquet");
-        System.out.println("Convert a Parquet file to CSV:");
-        System.out.println("  ./gradlew :samples:convertParquetToCsv");
-        System.out.println("Convert a CSV file to Avro:");
-        System.out.println("  ./gradlew :samples:convertCsvToAvro");
-
-        System.out.println("\nRegistered file formats:");
-        for (String key : FormatRegistry.getKeys()) {
-            System.out.println("  - " + key);
-        }
+        System.out.println("Memory => Parquet:");
+        System.out.println("  ./gradlew createParquet");
+        System.out.println("Memory => Parquet => CSV:");
+        System.out.println("  ./gradlew convertParquetToCsv");
+        System.out.println("Memory => Parquet => CSV => Avro:");
+        System.out.println("  ./gradlew convertCsvToAvro");
+        System.out.println("Memory => Parquet => ND-JSON:");
+        System.out.println("  ./gradlew convertParquetToNDJson");
+        System.out.println("Memory => Parquet => ND-JSON => CSV:");
+        System.out.println("  ./gradlew convertNDJsonToCSV");
     }
 }

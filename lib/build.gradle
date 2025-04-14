@@ -73,6 +73,7 @@ dependencies {
     implementation libs.checker.qual
     implementation libs.slf4j.nop
     implementation libs.opencsv
+    implementation libs.gson
 
     // Avro dependencies
     implementation libs.avro

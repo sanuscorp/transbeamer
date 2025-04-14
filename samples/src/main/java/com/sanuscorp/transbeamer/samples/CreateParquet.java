@@ -1,6 +1,7 @@
 package com.sanuscorp.transbeamer.samples;
 
 import com.sanuscorp.transbeamer.BuiltInFormat;
+import com.sanuscorp.transbeamer.ParquetFormat;
 import com.sanuscorp.transbeamer.TransBeamer;
 import com.sanuscorp.transbeamer.samples.avro.StarWarsMovie;
 import org.apache.beam.sdk.Pipeline;
@@ -46,7 +47,7 @@ public class CreateParquet {
         // Write the PCollection to a Parquet file
         movieCollection.apply(
             TransBeamer.newWriter(
-                BuiltInFormat.PARQUET,
+                new ParquetFormat(),
                 "build",
                 StarWarsMovie.class
             )
@@ -57,7 +58,9 @@ public class CreateParquet {
         // Run the pipeline
         pipeline.run().waitUntilFinish();
 
-        System.out.println("StarWars.parquet file created successfully!");
+        System.out.println(
+            "Parquet created successfully at: build/StarWars*.parquet"
+        );
     }
 
     @NotNull

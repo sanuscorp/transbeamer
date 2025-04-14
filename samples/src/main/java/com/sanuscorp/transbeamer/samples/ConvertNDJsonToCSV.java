@@ -1,21 +1,13 @@
 package com.sanuscorp.transbeamer.samples;
 
 import com.sanuscorp.transbeamer.CsvFormat;
+import com.sanuscorp.transbeamer.NDJsonFormat;
 import com.sanuscorp.transbeamer.ParquetFormat;
 import com.sanuscorp.transbeamer.TransBeamer;
 import com.sanuscorp.transbeamer.samples.avro.StarWarsMovie;
 import org.apache.beam.sdk.Pipeline;
 
-/**
- * This application reads the StarWars parquet file from the build directory
- * and writes it as CSV to the build directory.
- */
-public class ConvertParquetToCsv {
-
-    /**
-     * Main entry point for the ConvertStarWarsToCsv application.
-     * @param args Command line arguments (not used)
-     */
+public class ConvertNDJsonToCSV {
     public static void main(String[] args) {
         System.out.println("Converting StarWars.parquet to CSV...");
 
@@ -23,17 +15,17 @@ public class ConvertParquetToCsv {
         Pipeline pipeline = Pipeline.create();
         pipeline.apply(
             TransBeamer.newReader(
-                new ParquetFormat(),
-                "build",
-                StarWarsMovie.class
-            )
-            .withFilePrefix("StarWars")
+                    new NDJsonFormat(),
+                    "build",
+                    StarWarsMovie.class
+                )
+                .withFilePrefix("StarWars")
         ).apply(
             TransBeamer.newWriter(
-                new CsvFormat(),
-                "build",
-                StarWarsMovie.class
-            )
+                    new CsvFormat(),
+                    "build",
+                    StarWarsMovie.class
+                )
                 .withNumShards(1)
                 .withFilePrefix("StarWars")
         );

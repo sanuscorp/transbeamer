@@ -10,6 +10,7 @@ checker-qual = "3.46.0"
 slf4j = "2.0.9"
 assertj = "3.25.1"
 opencsv = "5.9"
+gson = "2.12.1"
 
 # Plugin versions
 avro-plugin = "1.8.0"
@@ -30,12 +31,14 @@ beam-flink-runner = { module = "org.apache.beam:beam-runners-flink-1.19", versio
 hadoop-common = { module = "org.apache.hadoop:hadoop-common", version.ref = "hadoop" }
 hadoop-mapreduce = { module = "org.apache.hadoop:hadoop-mapreduce-client-core", version.ref = "hadoop" }
 
+# Other Libraries
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual" }
 slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
 avro = { module = "org.apache.avro:avro", version.ref = "avro" }
 opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv"}
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # Test dependencies
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
