@@ -14,8 +14,12 @@ public class Welcome {
         System.out.println("The TransBeamer library provides utilities for " +
             "reading and writing data in various formats.");
 
+        System.out.println("\nThe \"samples\" project provides apps that " +
+            "produce different file formats in the \"samples/build\" " +
+            "directory.");
+
         // Display information about the TransBeamer library
-        System.out.println("\nSome Samples:");
+        System.out.println("\nFor Instance:");
         System.out.println("----------------------------");
         System.out.println("Memory => Parquet:");
         System.out.println("  ./gradlew createParquet");

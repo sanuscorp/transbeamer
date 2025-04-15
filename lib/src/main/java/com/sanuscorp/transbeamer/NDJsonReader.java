@@ -8,7 +8,12 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class NDJsonReader<T> extends PTransform<
+/**
+ * This class implements a {@link PTransform} that knows how to read
+ * Newline-delimited JSON files.
+ * @param <T> The type that we will create the ND-JSON into.
+ */
+public final class NDJsonReader<T> extends PTransform<
     @NonNull PBegin,
     @NonNull PCollection<T>
 > {
@@ -28,9 +33,8 @@ public class NDJsonReader<T> extends PTransform<
         return new NDJsonReader<>(filePattern, clazz);
     }
 
-
     @Override
-    public @NonNull PCollection<T> expand(@NonNull PBegin input) {
+    public @NonNull PCollection<T> expand(@NonNull final PBegin input) {
         final Pipeline pipeline = input.getPipeline();
 
         final PCollection<String> lines = pipeline.apply(

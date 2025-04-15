@@ -13,16 +13,16 @@ import java.nio.channels.WritableByteChannel;
  * a {@link ParquetIO.Sink} instance.
  * @param <T> The type that will be written out to Parquet.
  */
-public class ParquetSink<T extends GenericRecord> implements FileIO.Sink<T> {
+public final class ParquetSink<T extends GenericRecord> implements FileIO.Sink<T> {
 
     /**
      * The ParquetIO.Sink instance we are wrapping around.
      */
-    private final ParquetIO.Sink parquetSink;
+    private final ParquetIO.Sink sink;
 
     private ParquetSink(final Class<T> clazz) {
         final Schema avroSchema = ReflectUtils.getClassSchema(clazz);
-        parquetSink = ParquetIO.sink(avroSchema);
+        sink = ParquetIO.sink(avroSchema);
     }
 
     static <T extends GenericRecord> ParquetSink<T> of(final Class<T> clazz) {
@@ -30,17 +30,17 @@ public class ParquetSink<T extends GenericRecord> implements FileIO.Sink<T> {
     }
 
     @Override
-    public void open(WritableByteChannel channel) throws IOException {
-        this.parquetSink.open(channel);
+    public void open(final WritableByteChannel channel) throws IOException {
+        this.sink.open(channel);
     }
 
     @Override
-    public void write(T element) throws IOException {
-        this.parquetSink.write(element);
+    public void write(final T element) throws IOException {
+        this.sink.write(element);
     }
 
     @Override
     public void flush() throws IOException {
-        this.parquetSink.flush();
+        this.sink.flush();
     }
 }

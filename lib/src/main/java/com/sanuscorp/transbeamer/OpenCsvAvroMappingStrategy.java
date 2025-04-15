@@ -6,7 +6,13 @@ import org.apache.avro.generic.GenericRecord;
 
 import java.util.List;
 
-public class OpenCsvAvroMappingStrategy<T extends GenericRecord> extends
+/**
+ * This class provides the Header Mapping Strategy used to translate between a
+ * CSV file and an Avro schema.
+ * @param <T> The {@link GenericRecord} Avro type that will be populated at
+ * runtime.  This is typically a generated class.
+ */
+public final class OpenCsvAvroMappingStrategy<T extends GenericRecord> extends
     HeaderNameBaseMappingStrategy<T> {
 
     private final Schema schema;
@@ -21,7 +27,7 @@ public class OpenCsvAvroMappingStrategy<T extends GenericRecord> extends
     }
 
     @Override
-    public String[] generateHeader(T bean) {
+    public String[] generateHeader(final T bean) {
         if (headerIndex.isEmpty()) {
             final List<Schema.Field> fields = schema.getFields();
             final String[] header = new String[fields.size()];

@@ -41,6 +41,6 @@ public class ConvertParquetToAvro {
         // Run the pipeline
         pipeline.run().waitUntilFinish();
 
-        System.out.println("Avro file created at: build/StarWarsAvro-*.avro");
+        System.out.println("Avro file created at: build/StarWars-*.avro");
     }
 }

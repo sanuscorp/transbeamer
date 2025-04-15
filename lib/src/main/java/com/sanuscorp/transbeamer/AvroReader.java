@@ -8,7 +8,11 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class AvroReader<T extends SpecificRecordBase> extends PTransform<
+/**
+ * This class provides the {@link PTransform} that can read Avro files.
+ * @param <T> The class type that will be populated from the Avro files.
+ */
+public final class AvroReader<T extends SpecificRecordBase> extends PTransform<
     @NonNull PBegin,
     @NonNull PCollection<T>
 > {
@@ -33,7 +37,7 @@ public class AvroReader<T extends SpecificRecordBase> extends PTransform<
     }
 
     @Override
-    public @NonNull PCollection<T> expand(@NonNull PBegin input) {
+    public @NonNull PCollection<T> expand(@NonNull final PBegin input) {
         return input.apply(
             "Read Avro from " + filePattern,
             AvroIO.readGenericRecords(schema).from(filePattern)

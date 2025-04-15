@@ -13,13 +13,16 @@ import java.nio.channels.Channels;
 import java.nio.channels.WritableByteChannel;
 import java.nio.charset.StandardCharsets;
 
-
-public class OpenCsvSink<T extends GenericRecord> implements FileIO.Sink<T> {
+/**
+ * The {@link FileIO.Sink} implementation we use to write CSV files.
+ * @param <T> The type of element to be written.
+ */
+public final class OpenCsvSink<T extends GenericRecord> implements FileIO.Sink<T> {
 
     private final Class<T> clazz;
 
     /**
-     * The OpenCsv class we use to write through
+     * The OpenCsv class we use to write through.
      */
     private StatefulBeanToCsv<T> beanToCsv;
 
@@ -37,7 +40,7 @@ public class OpenCsvSink<T extends GenericRecord> implements FileIO.Sink<T> {
     }
 
     @Override
-    public void open(WritableByteChannel channel) {
+    public void open(final WritableByteChannel channel) {
         this.writer = Channels.newWriter(channel, StandardCharsets.UTF_8);
 
         final MappingStrategy<T> strategy = OpenCsvAvroMappingStrategy.of(clazz);
@@ -48,7 +51,7 @@ public class OpenCsvSink<T extends GenericRecord> implements FileIO.Sink<T> {
     }
 
     @Override
-    public void write(T element) throws IOException {
+    public void write(final T element) throws IOException {
         try {
             beanToCsv.write(element);
         } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {

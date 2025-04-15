@@ -2,12 +2,15 @@ package com.sanuscorp.transbeamer;
 
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.specific.SpecificRecordBase;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
 final class ReflectUtils implements Serializable {
+
+    private ReflectUtils() {
+        // Intentionally Empty
+    }
 
     /**
      * Create a new instance of a given class, using the default/no-arg

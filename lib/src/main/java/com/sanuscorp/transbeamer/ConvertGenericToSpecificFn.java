@@ -29,7 +29,7 @@ final class ConvertGenericToSpecificFn<
 
     private List<String> fieldNames;
 
-    ConvertGenericToSpecificFn(Class<T> clazz) {
+    ConvertGenericToSpecificFn(final Class<T> clazz) {
         this.clazz = clazz;
         LOG.debug("Created to convert GenericRecord to {}", clazz.getSimpleName());
     }

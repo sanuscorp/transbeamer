@@ -8,14 +8,18 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+/**
+ * The {@link FileFormat} implementation that understands how to read and write
+ * Parquet files.
+ */
 public final class ParquetFormat implements FileFormat {
-
-    public static ParquetFormat create() {
-        return new ParquetFormat();
-    }
 
     private ParquetFormat() {
         // Intentionally empty
+    }
+
+    public static ParquetFormat create() {
+        return new ParquetFormat();
     }
 
     @Override
@@ -33,14 +37,16 @@ public final class ParquetFormat implements FileFormat {
         @NonNull PBegin,
         @NonNull PCollection<T>
     > getReader(
-        String filePattern, Class<T> clazz
+        final String filePattern,
+        final Class<T> clazz
     ) {
         return ParquetReader.read(filePattern, clazz);
     }
 
     @Override
     public <T extends GenericRecord> FileIO.Sink<T> getWriter(
-        Class<T> clazz) {
+        final Class<T> clazz
+    ) {
         return ParquetSink.of(clazz);
     }
 }

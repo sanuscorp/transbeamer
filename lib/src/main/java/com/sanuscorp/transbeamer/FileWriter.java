@@ -9,6 +9,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+/**
+ * This class provides the ability to write files in a variety of formats.
+ * @param <T> The element type that will be provided when running.
+ */
 public final class FileWriter<T extends GenericRecord> extends PTransform<
     @NonNull PCollection<T>,
     @NonNull PDone
@@ -36,7 +40,7 @@ public final class FileWriter<T extends GenericRecord> extends PTransform<
     }
 
     @Override
-    public @NonNull PDone expand(@NonNull PCollection<T> input) {
+    public @NonNull PDone expand(@NonNull final PCollection<T> input) {
 
         final String suffix = "." + format.getSuffix();
         FileIO.Write<Void, T> writer = FileIO.<T>write()
@@ -64,12 +68,12 @@ public final class FileWriter<T extends GenericRecord> extends PTransform<
         return PDone.in(input.getPipeline());
     }
 
-    public FileWriter<T> withFilePrefix(String filePrefix) {
+    public FileWriter<T> withFilePrefix(final String filePrefix) {
         this.filePrefix = filePrefix;
         return this;
     }
 
-    public FileWriter<T> withNumShards(Integer numShards) {
+    public FileWriter<T> withNumShards(final Integer numShards) {
         this.numShards = numShards;
         return this;
     }

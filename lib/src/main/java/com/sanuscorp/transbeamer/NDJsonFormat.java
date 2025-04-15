@@ -8,14 +8,18 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+/**
+ * This {@link FileFormat} implementation provides the ability to read and write
+ * Newline-Delimited JSON files.
+ */
 public final class NDJsonFormat implements FileFormat {
-
-    public static NDJsonFormat create() {
-        return new NDJsonFormat();
-    }
 
     private NDJsonFormat() {
         // Intentionally empty
+    }
+
+    public static NDJsonFormat create() {
+        return new NDJsonFormat();
     }
 
     @Override
@@ -32,12 +36,14 @@ public final class NDJsonFormat implements FileFormat {
     public <T extends SpecificRecordBase> PTransform<
         @NonNull PBegin,
         @NonNull PCollection<T>
-    > getReader(String filePattern, Class<T> clazz) {
+    > getReader(final String filePattern, final Class<T> clazz) {
         return NDJsonReader.read(filePattern, clazz);
     }
 
     @Override
-    public <T extends GenericRecord> FileIO.Sink<T> getWriter(Class<T> clazz) {
+    public <T extends GenericRecord> FileIO.Sink<T> getWriter(
+        final Class<T> clazz
+    ) {
         return NDJsonWriter.of(clazz);
     }
 }

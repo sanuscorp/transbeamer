@@ -29,7 +29,7 @@ public class ConvertNDJsonToCSV {
         pipeline.run().waitUntilFinish();
 
         System.out.println(
-            "CSV file created at: build/StarWarsAvro-*.csv"
+            "CSV file created at: build/StarWars-*.csv"
         );
     }
 }

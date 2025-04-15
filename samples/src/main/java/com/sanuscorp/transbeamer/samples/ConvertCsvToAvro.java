@@ -30,7 +30,7 @@ public class ConvertCsvToAvro {
         pipeline.run().waitUntilFinish();
 
         System.out.println(
-            "Avro file created at: build/StarWarsAvro-*.avro"
+            "Avro file created at: build/StarWars-*.avro"
         );
 
     }

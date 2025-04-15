@@ -14,6 +14,11 @@ import java.nio.channels.Channels;
 import java.nio.channels.WritableByteChannel;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * This class provides the {@link FileIO.Sink} implementation that understands
+ * how to write Newline-Delimited JSON files.
+ * @param <T> The type that will be written out as ND-JSON.
+ */
 public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
 
     private final Class<T> clazz;
@@ -33,7 +38,7 @@ public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
     }
 
     @Override
-    public void open(WritableByteChannel channel) {
+    public void open(final WritableByteChannel channel) {
         gson = new GsonBuilder()
             .setFormattingStyle(FormattingStyle.COMPACT)
             .create();
@@ -49,7 +54,7 @@ public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
     }
 
     @Override
-    public void write(T element) throws IOException {
+    public void write(final T element) throws IOException {
         gson.toJson(element, clazz, bufferedWriter);
         bufferedWriter.write("\n");
     }

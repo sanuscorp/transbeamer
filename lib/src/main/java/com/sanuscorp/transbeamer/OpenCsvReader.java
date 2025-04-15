@@ -9,7 +9,13 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class OpenCsvReader<B> extends PTransform<
+/**
+ * This class provides the {@link PTransform} that understands how to read CSV
+ * files.  This implementation leverages the <code>OpenCsv</code> library
+ * for the lower-level bits.
+ * @param <B> The Bean type that will be populated from the CSV file.
+ */
+public final class OpenCsvReader<B> extends PTransform<
     @NonNull PBegin,
     @NonNull PCollection<B>
 > {
@@ -30,7 +36,7 @@ public class OpenCsvReader<B> extends PTransform<
     }
 
     @Override
-    public @NonNull PCollection<B> expand(@NonNull PBegin input) {
+    public @NonNull PCollection<B> expand(@NonNull final PBegin input) {
         final Pipeline pipeline = input.getPipeline();
 
         final PCollection<MatchResult.Metadata> metadata = pipeline.apply(

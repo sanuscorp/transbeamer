@@ -9,14 +9,18 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+/**
+ * This class provides the {@link FileFormat} for reading and writing Avro
+ * files.
+ */
 public final class AvroFormat implements FileFormat {
-
-    public static AvroFormat create() {
-        return new AvroFormat();
-    }
 
     private AvroFormat() {
         // Intentionally empty
+    }
+
+    public static AvroFormat create() {
+        return new AvroFormat();
     }
 
     @Override
@@ -40,7 +44,7 @@ public final class AvroFormat implements FileFormat {
     @Override
     public <
         T extends GenericRecord
-    > FileIO.Sink<T> getWriter(Class<T> clazz) {
+    > FileIO.Sink<T> getWriter(final Class<T> clazz) {
         return AvroIO.sink(clazz);
     }
 }
