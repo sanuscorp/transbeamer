@@ -49,6 +49,9 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << '-parameters'
 }
 
+pmd {
+    consoleOutput = true
+}
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.

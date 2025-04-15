@@ -8,7 +8,11 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class ParquetReader<T extends SpecificRecordBase> extends PTransform<
+/**
+ * This file provides the ability to read Parquet files.
+ * @param <T> The type the Parquet elements will be read into.
+ */
+public final class ParquetReader<T extends SpecificRecordBase> extends PTransform<
     @NonNull PBegin,
     @NonNull PCollection<T>
 > {
@@ -33,7 +37,7 @@ public class ParquetReader<T extends SpecificRecordBase> extends PTransform<
     }
 
     @Override
-    public @NonNull PCollection<T> expand(@NonNull PBegin input) {
+    public @NonNull PCollection<T> expand(@NonNull final PBegin input) {
         return input.apply(
             "Read Parquet from " + filePattern,
             ParquetIO.read(schema).from(filePattern)

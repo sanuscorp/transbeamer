@@ -39,6 +39,6 @@ public class ConvertParquetToCsv {
         );
         pipeline.run().waitUntilFinish();
 
-        System.out.println("CSV file created at: build/StarWarsCsv-*.csv");
+        System.out.println("CSV file created at: build/StarWars-*.csv");
     }
 }

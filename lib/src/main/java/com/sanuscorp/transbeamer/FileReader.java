@@ -36,13 +36,13 @@ public final class FileReader<T extends SpecificRecordBase> extends PTransform<
         this.location = inputLocation;
     }
 
-    public FileReader<T> withFilePrefix(String filePrefix) {
+    public FileReader<T> withFilePrefix(final String filePrefix) {
         this.filePrefix = filePrefix;
         return this;
     }
 
     @Override
-    public @NonNull PCollection<T> expand(@NonNull PBegin input) {
+    public @NonNull PCollection<T> expand(@NonNull final PBegin input) {
         final String locationBase;
         if (location.endsWith("/")) {
             locationBase = location + filePrefix;

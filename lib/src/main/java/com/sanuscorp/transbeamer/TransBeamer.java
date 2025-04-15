@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * This class provides the main entry points into the library.
  */
-public class TransBeamer {
+public final class TransBeamer {
 
     private static final Logger LOG = LogManager.getLogger(TransBeamer.class);
 
@@ -16,6 +16,10 @@ public class TransBeamer {
             "===== Loaded TransBeamer ====  \n\tCWD: {}",
             System.getProperty("user.dir")
         );
+    }
+
+    private TransBeamer() {
+        // Intentionally Empty
     }
 
     /**

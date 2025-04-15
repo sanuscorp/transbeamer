@@ -35,7 +35,7 @@ public class ConvertParquetToNDJson {
         pipeline.run().waitUntilFinish();
 
         System.out.println(
-            "ND-JSON file created at: build/StarWarsAvro-*.ndjson"
+            "ND-JSON file created at: build/StarWars-*.ndjson"
         );
     }
 }

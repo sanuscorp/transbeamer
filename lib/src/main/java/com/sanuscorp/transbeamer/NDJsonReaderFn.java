@@ -6,12 +6,15 @@ import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-
-public class NDJsonReaderFn<T> extends DoFn<
+/**
+ * This class provides a {@link DoFn} that converts a line of JSON into a Java
+ * element.
+ * @param <T> The type of the element to create.
+ */
+public final class NDJsonReaderFn<T> extends DoFn<
     String,
     T
->{
+> {
     private static final Logger LOG = LogManager.getLogger(NDJsonReaderFn.class);
 
     private final Class<T> clazz;

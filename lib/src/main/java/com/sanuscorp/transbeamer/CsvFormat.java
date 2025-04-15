@@ -8,20 +8,24 @@ import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+/**
+ * This {@link FileFormat} provides the ability to read and write CSV files.
+ */
 public final class CsvFormat implements FileFormat {
-
-    public static CsvFormat create() {
-        return new CsvFormat();
-    }
 
     private CsvFormat() {
         // Intentionally empty
+    }
+
+    public static CsvFormat create() {
+        return new CsvFormat();
     }
 
     @Override
     public String getName() {
         return "CSV";
     }
+
     @Override
     public String getSuffix() {
         return "csv";
@@ -31,13 +35,14 @@ public final class CsvFormat implements FileFormat {
     public <T extends SpecificRecordBase> PTransform<
         @NonNull PBegin,
         @NonNull PCollection<T>
-    > getReader(String filePattern, Class<T> clazz) {
+    > getReader(final String filePattern, final Class<T> clazz) {
         return OpenCsvReader.read(filePattern, clazz);
     }
 
     @Override
     public <T extends GenericRecord> FileIO.Sink<T> getWriter(
-        Class<T> clazz) {
+        final Class<T> clazz
+    ) {
         return OpenCsvSink.of(clazz);
     }
 }
