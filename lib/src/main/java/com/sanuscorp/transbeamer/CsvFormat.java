@@ -9,9 +9,9 @@ import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * This {@link FileFormat} provides the ability to read and write CSV files.
+ * This {@link DataFormat} provides the ability to read and write CSV files.
  */
-public final class CsvFormat implements FileFormat {
+public final class CsvFormat implements DataFormat {
 
     private CsvFormat() {
         // Intentionally empty
@@ -35,8 +35,8 @@ public final class CsvFormat implements FileFormat {
     public <T extends SpecificRecordBase> PTransform<
         @NonNull PBegin,
         @NonNull PCollection<T>
-    > getReader(final String filePattern, final Class<T> clazz) {
-        return OpenCsvReader.read(filePattern, clazz);
+    > getReader(final String dataPattern, final Class<T> clazz) {
+        return OpenCsvReader.read(dataPattern, clazz);
     }
 
     @Override

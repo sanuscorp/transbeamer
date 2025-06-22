@@ -50,12 +50,9 @@ tasks.named('convertParquetToCsv') {
 }
 
 createSampleTask(
-    'convertCsvToAvro',
-    'com.sanuscorp.transbeamer.samples.ConvertCsvToAvro'
+    'toAvroAndParquet',
+    'com.sanuscorp.transbeamer.samples.ConvertCsvToAvroAndParquet'
 )
-tasks.named('convertCsvToAvro') {
-    dependsOn 'convertParquetToCsv'
-}
 
 createSampleTask(
     'convertParquetToNDJson',

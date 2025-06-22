@@ -1,35 +1,36 @@
 package com.sanuscorp.transbeamer.samples;
 
 /**
- * A simple Hello World application demonstrating the TransBeamer library.
+ * A class to provide a welcome message.
  */
 public class Welcome {
 
     /**
-     * Main entry point for the HelloWorld sample application.
-     * @param args Command line arguments
+     * Entry point for the Welcome Gradle task.
      */
     public static void main(String[] args) {
-        System.out.println("Hello, TransBeamer World!");
-        System.out.println("The TransBeamer library provides utilities for " +
-            "reading and writing data in various formats.");
+        System.out.println("""
+        Welcome! \s
+        
+        The TransBeamer library provides utilities for\s
+        reading and writing data in various formats,\s
+        populating Avro-based PCollections as interim values.\s
+        
+        This current supports the following formats:\s
+          - Avro\s
+          - Parquet\s
+          - CSV\s
+          - ND-JSON\s
+        
+        The "samples" project provides apps that produce different\s
+        file formats in the "samples/builddirectory.\s
+        """);
 
-        System.out.println("\nThe \"samples\" project provides apps that " +
-            "produce different file formats in the \"samples/build\" " +
-            "directory.");
-
-        // Display information about the TransBeamer library
         System.out.println("\nFor Instance:");
         System.out.println("----------------------------");
-        System.out.println("Memory => Parquet:");
-        System.out.println("  ./gradlew createParquet");
-        System.out.println("Memory => Parquet => CSV:");
-        System.out.println("  ./gradlew convertParquetToCsv");
-        System.out.println("Memory => Parquet => CSV => Avro:");
-        System.out.println("  ./gradlew convertCsvToAvro");
-        System.out.println("Memory => Parquet => ND-JSON:");
-        System.out.println("  ./gradlew convertParquetToNDJson");
-        System.out.println("Memory => Parquet => ND-JSON => CSV:");
-        System.out.println("  ./gradlew convertNDJsonToCSV");
+        System.out.println("CSV ");
+        System.out.println("   => Parquet");
+        System.out.println("   => Avro");
+        System.out.println("  ./gradlew toAvroAndParquet");
     }
 }

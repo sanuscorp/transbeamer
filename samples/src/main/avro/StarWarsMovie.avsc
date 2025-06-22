@@ -6,5 +6,9 @@
     {"name": "year", "type": "int"},
     {"name": "title", "type": "string"},
     {"name": "rating", "type": "double"}
+  ],
+  "javaAnnotation": [
+    "org.apache.beam.sdk.schemas.annotations.DefaultSchema(org.apache.beam.sdk.extensions.avro.schemas.AvroRecordSchema.class)",
+    "org.apache.beam.sdk.coders.DefaultCoder(org.apache.beam.sdk.extensions.avro.coders.AvroCoder.class)"
   ]
 }

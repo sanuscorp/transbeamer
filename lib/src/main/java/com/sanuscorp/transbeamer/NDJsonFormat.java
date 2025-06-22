@@ -9,10 +9,10 @@ import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * This {@link FileFormat} implementation provides the ability to read and write
+ * This {@link DataFormat} implementation provides the ability to read and write
  * Newline-Delimited JSON files.
  */
-public final class NDJsonFormat implements FileFormat {
+public final class NDJsonFormat implements DataFormat {
 
     private NDJsonFormat() {
         // Intentionally empty
@@ -36,8 +36,8 @@ public final class NDJsonFormat implements FileFormat {
     public <T extends SpecificRecordBase> PTransform<
         @NonNull PBegin,
         @NonNull PCollection<T>
-    > getReader(final String filePattern, final Class<T> clazz) {
-        return NDJsonReader.read(filePattern, clazz);
+    > getReader(final String dataPattern, final Class<T> clazz) {
+        return NDJsonReader.read(dataPattern, clazz);
     }
 
     @Override

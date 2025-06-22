@@ -10,10 +10,10 @@ import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * This class provides the {@link FileFormat} for reading and writing Avro
+ * This class provides the {@link DataFormat} for reading and writing Avro
  * files.
  */
-public final class AvroFormat implements FileFormat {
+public final class AvroFormat implements DataFormat {
 
     private AvroFormat() {
         // Intentionally empty
@@ -37,8 +37,8 @@ public final class AvroFormat implements FileFormat {
     public <T extends SpecificRecordBase> PTransform<
         @NonNull PBegin,
         @NonNull PCollection<T>
-    > getReader(final String filePattern, final Class<T> clazz) {
-        return AvroReader.read(filePattern, clazz);
+    > getReader(final String dataPattern, final Class<T> clazz) {
+        return AvroReader.read(dataPattern, clazz);
     }
 
     @Override

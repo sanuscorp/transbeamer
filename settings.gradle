@@ -5,5 +5,3 @@ plugins {
 rootProject.name = 'transbeamer'
 include('lib')
 include('samples')
-include('subway')
-include('tools')

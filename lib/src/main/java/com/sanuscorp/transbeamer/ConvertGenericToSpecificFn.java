@@ -12,6 +12,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides a {@link DoFn} that will convert instances of Avro's
+ * {@link GenericRecord} into instances of a class that extends Avro's {@link
+ * SpecificRecordBase}.
+ * @param <T> The type to convert into.
+ */
 final class ConvertGenericToSpecificFn<
     T extends SpecificRecordBase
 > extends DoFn<
@@ -27,13 +33,28 @@ final class ConvertGenericToSpecificFn<
      */
     private final Class<T> clazz;
 
+    /**
+     * The cached list of field names we will populate, based on the Avro
+     * schema.
+     */
     private List<String> fieldNames;
 
+    /**
+     * Create an instance of this {@link DoFn}.  Rather than call this directly,
+     * prefer using the <code>parDoOf</code> static method.
+     * @param clazz The class to convert into.
+     */
     ConvertGenericToSpecificFn(final Class<T> clazz) {
         this.clazz = clazz;
         LOG.debug("Created to convert GenericRecord to {}", clazz.getSimpleName());
     }
 
+    /**
+     * Get an instance of this {@link DoFn}, pre-wrapped in a {@link ParDo}.
+     * @param clazz The class to convert into
+     * @return The created {@link ParDo}.
+     * @param <T> The type to convert into.
+     */
     static <T extends SpecificRecordBase> ParDo.SingleOutput<
         GenericRecord,
         T

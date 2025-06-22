@@ -12,22 +12,22 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * This class provides the Reader transform.
  * @param <T> The element type that we will read data into.
  */
-public final class FileReader<T extends SpecificRecordBase> extends PTransform<
+public final class DataReader<T extends SpecificRecordBase> extends PTransform<
     @NonNull PBegin,
     @NonNull PCollection<T>
 > {
-    private static final Logger LOG = LogManager.getLogger(FileReader.class);
+    private static final Logger LOG = LogManager.getLogger(DataReader.class);
 
     private final String location;
 
-    private final FileFormat format;
+    private final DataFormat format;
 
     private String filePrefix = "";
 
     private final Class<T> clazz;
 
-    FileReader(
-        final FileFormat format,
+    DataReader(
+        final DataFormat format,
         final String inputLocation,
         final Class<T> clazz
     ) {
@@ -36,7 +36,7 @@ public final class FileReader<T extends SpecificRecordBase> extends PTransform<
         this.location = inputLocation;
     }
 
-    public FileReader<T> withFilePrefix(final String filePrefix) {
+    public DataReader<T> withFilePrefix(final String filePrefix) {
         this.filePrefix = filePrefix;
         return this;
     }
@@ -57,6 +57,9 @@ public final class FileReader<T extends SpecificRecordBase> extends PTransform<
         > reader = format.getReader(filePattern, clazz);
 
         LOG.debug("Reading {} into {}", filePattern, clazz.getSimpleName());
-        return input.apply(reader);
+        return input.apply(
+            "Read from " + locationBase + "*",
+            reader
+        );
     }
 }

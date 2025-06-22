@@ -13,24 +13,24 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * This class provides the ability to write files in a variety of formats.
  * @param <T> The element type that will be provided when running.
  */
-public final class FileWriter<T extends GenericRecord> extends PTransform<
+public final class DataWriter<T extends GenericRecord> extends PTransform<
     @NonNull PCollection<T>,
     @NonNull PDone
 > {
-    private static final Logger LOG = LogManager.getLogger(FileWriter.class);
+    private static final Logger LOG = LogManager.getLogger(DataWriter.class);
 
     private final Class<T> clazz;
 
     private final String outputLocation;
 
-    private final FileFormat format;
+    private final DataFormat format;
 
     private String filePrefix = "";
 
     private Integer numShards;
 
-    FileWriter(
-        final FileFormat format,
+    DataWriter(
+        final DataFormat format,
         final String outputLocation,
         final Class<T> clazz
     ) {
@@ -68,12 +68,12 @@ public final class FileWriter<T extends GenericRecord> extends PTransform<
         return PDone.in(input.getPipeline());
     }
 
-    public FileWriter<T> withFilePrefix(final String filePrefix) {
+    public DataWriter<T> withFilePrefix(final String filePrefix) {
         this.filePrefix = filePrefix;
         return this;
     }
 
-    public FileWriter<T> withNumShards(final Integer numShards) {
+    public DataWriter<T> withNumShards(final Integer numShards) {
         this.numShards = numShards;
         return this;
     }

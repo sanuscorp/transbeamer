@@ -6,6 +6,7 @@ plugins {
     id 'maven-publish'
     alias(libs.plugins.jacoco)
     alias(libs.plugins.avro)
+    id 'jvm-test-suite'
 }
 
 publishing {
@@ -53,10 +54,15 @@ pmd {
     consoleOutput = true
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+testing {
+    suites {
+        test {
+            useJUnitJupiter()
+        }
+    }
+}
 
+tasks.named('test') {
     // Always run tests, even when nothing changed.
     dependsOn 'cleanTest'
 
