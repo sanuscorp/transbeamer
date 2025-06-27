@@ -18,8 +18,11 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the {@link DataReader} class.
+ */
 @ExtendWith(MockitoExtension.class)
-@DisplayName( "The DataReader Class")
+@DisplayName("The DataReader Class")
 public class DataReaderTests {
 
     // Fixtures

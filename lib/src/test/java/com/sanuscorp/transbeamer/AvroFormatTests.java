@@ -19,6 +19,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
+/**
+ * Unit tests for the AvroFormat class.
+ */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("The AvroFormat Class")
 public class AvroFormatTests {

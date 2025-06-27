@@ -3,7 +3,6 @@ plugins {
     id 'idea'
     id 'checkstyle'
     id 'pmd'
-    id 'maven-publish'
     alias(libs.plugins.jacoco)
     alias(libs.plugins.avro)
     id 'jvm-test-suite'
@@ -38,7 +37,6 @@ repositories {
     mavenLocal()
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
@@ -90,6 +88,18 @@ pmd {
     toolVersion = "6.55.0"
     ruleSets = []
     ruleSetFiles = files("./config/pmd/pmd.xml")
+}
+
+// Set the base name for all JAR tasks
+jar {
+    archiveBaseName = LIBRARY_NAME
+    archiveVersion = LIBRARY_VERSION
+}
+
+// Also apply to source and javadoc JARs
+tasks.withType(Jar) {
+    archiveBaseName = LIBRARY_NAME
+    archiveVersion = LIBRARY_VERSION
 }
 
 // Alter dependencies so that "check" only lints, and "test" only tests, and

@@ -19,9 +19,12 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the DataWriter class.
+ */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("The DataWriter Class")
-public class DataWriterTests {
+class DataWriterTests {
 
     // Fixtures
     private static final String OUTPUT_LOCATION = "output/location";
@@ -61,6 +64,7 @@ public class DataWriterTests {
     private PDone pDone;
 
     private PDone result;
+
     @BeforeEach
     void beforeEach() {
         when(format.getSuffix()).thenReturn(FORMAT_SUFFIX);

@@ -18,22 +18,48 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Unit tests for the {@link ConvertGenericToSpecificFn} class.
+ */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("The ConvertGenericToSpecificFn class")
 public class ConvertGenericToSpecificFnTests {
+
+    // Fixtures
+    private static final String FIRST_NAME = "First Name";
+
+    private static final String LAST_NAME = "Last Name";
+
+    private static final int AGE = 10;
+
+    private static final GenericRecord GENERIC_PERSON;
+
+    static {
+        GENERIC_PERSON = new GenericRecordBuilder(
+            ReflectUtils.getClassSchema(Person.class)
+        ).set("firstName", FIRST_NAME)
+            .set("lastName", LAST_NAME)
+            .set("age", AGE)
+            .build();
+    }
+
+    private static final Person EXPECTED_PERSON = Person.newBuilder()
+        .setFirstName(FIRST_NAME)
+        .setLastName(LAST_NAME)
+        .setAge(AGE)
+        .build();
 
     @Nested
     class when_created_wrapped_in_a_par_do {
         // Dependencies
         @Mock
-        MockedStatic<ParDo> mockedParDo;
+        private MockedStatic<ParDo> mockedParDo;
 
         // Interim Values
         @Mock
-        ParDo.SingleOutput<GenericRecord, Person> parDoSingleOutput;
+        private ParDo.SingleOutput<GenericRecord, Person> parDoSingleOutput;
 
         private ParDo.SingleOutput<GenericRecord, Person> result;
 
@@ -52,7 +78,7 @@ public class ConvertGenericToSpecificFnTests {
 
         @Test
         void it_created_the_expected_converter_dofn() {
-            ConvertGenericToSpecificFn<Person> converter = captor.getValue();
+            final ConvertGenericToSpecificFn<Person> converter = captor.getValue();
             assertThat(converter).extracting("clazz").isEqualTo(Person.class);
         }
 
@@ -62,29 +88,6 @@ public class ConvertGenericToSpecificFnTests {
         }
     }
 
-    // Fixtures
-    private static final String FIRST_NAME = "First Name";
-
-    private static final String LAST_NAME = "Last Name";
-
-    private static final int AGE = 10;
-
-    private static final GenericRecord GENERIC_PERSON;
-    static {
-        GENERIC_PERSON = new GenericRecordBuilder(
-            ReflectUtils.getClassSchema(Person.class)
-        ).set("firstName", FIRST_NAME)
-            .set("lastName", LAST_NAME)
-        .set("age", AGE)
-        .build();
-    }
-
-    private static final Person EXPECTED_PERSON = Person.newBuilder()
-        .setFirstName(FIRST_NAME)
-        .setLastName(LAST_NAME)
-        .setAge(AGE)
-        .build();
-
     @Nested
     class when_processing_an_element {
 
@@ -93,7 +96,7 @@ public class ConvertGenericToSpecificFnTests {
 
         @BeforeEach
         void beforeEach() {
-            ConvertGenericToSpecificFn<Person> converter =
+            final ConvertGenericToSpecificFn<Person> converter =
                 new ConvertGenericToSpecificFn<>(Person.class);
             converter.processElement(GENERIC_PERSON, outputReceiver);
         }

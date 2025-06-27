@@ -8,7 +8,7 @@
 
     <!-- Do not apply any checks to generated code -->
     <suppress files="[\\/]generated-main-avro-java[\\/]" checks="[a-zA-Z0-9]*"/>
-    <suppress files="[\\/]generated-main-freemarker-java[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]generated-test-avro-java[\\/]" checks="[a-zA-Z0-9]*"/>
 
     <!-- Allow unusual method & type names in tests for JUnit5 readability -->
     <suppress files="[\\/]test[\\/**/*Tests.java]" checks="MethodName"/>
