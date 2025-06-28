@@ -23,14 +23,14 @@ public final class DataWriter<T extends GenericRecord> extends PTransform<
 
     private final String outputLocation;
 
-    private final DataFormat format;
+    private final FileFormat format;
 
     private String filePrefix = "";
 
     private Integer numShards;
 
     DataWriter(
-        final DataFormat format,
+        final FileFormat format,
         final String outputLocation,
         final Class<T> clazz
     ) {

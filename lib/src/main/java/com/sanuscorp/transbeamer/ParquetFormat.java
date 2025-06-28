@@ -9,10 +9,10 @@ import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * The {@link DataFormat} implementation that understands how to read and write
+ * The {@link FileFormat} implementation that understands how to read and write
  * Parquet files.
  */
-public final class ParquetFormat implements DataFormat {
+public final class ParquetFormat implements FileFormat {
 
     private ParquetFormat() {
         // Intentionally empty

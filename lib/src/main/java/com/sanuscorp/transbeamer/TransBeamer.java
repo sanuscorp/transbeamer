@@ -34,7 +34,7 @@ public final class TransBeamer {
      * data.
      */
     public static <T extends SpecificRecordBase> DataReader<T> newReader(
-        final DataFormat format,
+        final FileFormat format,
         final String location,
         final Class<T> clazz
     ) {
@@ -52,7 +52,7 @@ public final class TransBeamer {
      * @param <T> The specific type of Avro element that will be written out.
      */
     public static <T extends SpecificRecordBase> DataWriter<T> newWriter(
-        final DataFormat format,
+        final FileFormat format,
         final String location,
         final Class<T> clazz
     ) {

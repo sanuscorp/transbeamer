@@ -13,7 +13,6 @@ public class ConvertCsvToAvroAndParquet {
     private static final String CWD = System.getProperty("user.dir");
 
     public static void main(String[] args) {
-        System.out.println("Converting StarWars CSV to Avro...");
         Pipeline pipeline = Pipeline.create();
 
         /*

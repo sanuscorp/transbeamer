@@ -3,32 +3,46 @@ plugins {
     id 'idea'
     id 'checkstyle'
     id 'pmd'
+    id 'org.danilopianini.publish-on-central' version '9.0.5'
     alias(libs.plugins.jacoco)
     alias(libs.plugins.avro)
     id 'jvm-test-suite'
 }
 
+group = LIBRARY_GROUP
+version = LIBRARY_VERSION
+
+publishOnCentral {
+    projectDescription.set('The TransBeamer library provides utilities for reading & writing data of various formats in Beam pipelines, populating Avro-based PCollections as interim values')
+    projectUrl.set('https://github.com/sanuscorp/transbeamer')
+    scmConnection.set('scm:git:https://github.com/sanuscorp/transbeamer.git')
+    projectLongName.set(LIBRARY_NAME)
+    licenseName.set('MIT License')
+    licenseUrl.set('https://opensource.org/licenses/MIT')
+}
+
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            groupId = "$LIBRARY_GROUP"
-            artifactId = "$LIBRARY_NAME"
-            version = "$LIBRARY_VERSION"
-
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/sanuscorp/transbeamer"
-            credentials {
-                username = "$GITHUB_ORG"
-                password = System.getenv("GITHUB_TOKEN")
+        withType(MavenPublication) {
+            // Override the artifact ID to use the library name instead of project directory name
+            artifactId = LIBRARY_NAME
+            
+            pom {
+                developers {
+                    developer {
+                        name.set('Sanus Software & Services')
+                        email.set('hello@sanuscorp.com')
+                        url.set('https://sanuscorp.com')
+                    }
+                }
             }
         }
     }
+}
+
+signing {
+    required = { gradle.taskGraph.hasTask('releaseMavenCentralPortalPublication') || 
+                gradle.taskGraph.hasTask('validateMavenCentralPortalPublication') }
 }
 
 repositories {
@@ -128,4 +142,16 @@ dependencies {
 // Run lint tasks on check
 tasks.named('check') {
     dependsOn 'checkstyleMain', 'checkstyleTest', 'pmdMain', 'pmdTest'
+}
+
+// Wrapper around the publish-on-central tasks
+tasks.register('runPublishToMavenCentral') {
+    description = 'Publishes the library to Maven Central Portal'
+    group = 'publishing'
+    
+    dependsOn 'publishAllPublicationsToProjectLocalRepository', 'zipMavenCentralPortalPublication', 'releaseMavenCentralPortalPublication'
+    
+    // Ensure tasks run in the correct order
+    tasks.zipMavenCentralPortalPublication.mustRunAfter tasks.publishAllPublicationsToProjectLocalRepository
+    tasks.releaseMavenCentralPortalPublication.mustRunAfter tasks.zipMavenCentralPortalPublication
 }

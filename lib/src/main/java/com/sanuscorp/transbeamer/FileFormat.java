@@ -12,17 +12,17 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * This interface defines the type that enables reading and writing of data
  * formats.
  */
-public interface DataFormat {
+public interface FileFormat {
 
     /**
-     * The name of the data format.
+     * The name of the file format.
      * @return The name
      */
     String getName();
 
     /**
      * The suffix of the data file to write, if any.
-     * @return The suffix. May be the empty-length string.
+     * @return The suffix.
      */
     String getSuffix();
 
@@ -40,6 +40,12 @@ public interface DataFormat {
         @NonNull PCollection<T>
     > getReader(String dataPattern, Class<T> clazz);
 
+    /**
+     * Get a data writer for this format.
+     * @param clazz The Avro-generated class this format will write from.
+     * @return The writer
+     * @param <T> The Avro-generated class this format will write from.
+     */
     <T extends GenericRecord> FileIO.Sink<T> getWriter(
         Class<T> clazz
     );
