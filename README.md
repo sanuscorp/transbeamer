@@ -34,14 +34,14 @@ potential solution easy to implement: use Avro for every DTO.
 <dependency>
     <groupId>com.sanuscorp</groupId>
     <artifactId>transbeamer</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.sanuscorp:transbeamer:1.1.0'
+implementation 'com.sanuscorp:transbeamer:1.2.0'
 ```
 
 ## Quick Start
