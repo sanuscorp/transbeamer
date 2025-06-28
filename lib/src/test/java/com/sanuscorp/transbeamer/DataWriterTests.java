@@ -39,7 +39,7 @@ class DataWriterTests {
 
     // Dependencies & Inputs
     @Mock
-    private DataFormat format;
+    private FileFormat format;
 
     @Mock
     private MockedStatic<FileIO> mockedFileIO;

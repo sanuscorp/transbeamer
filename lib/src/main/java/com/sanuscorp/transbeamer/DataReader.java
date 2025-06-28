@@ -20,14 +20,14 @@ public final class DataReader<T extends SpecificRecordBase> extends PTransform<
 
     private final String location;
 
-    private final DataFormat format;
+    private final FileFormat format;
 
     private String filePrefix = "";
 
     private final Class<T> clazz;
 
     DataReader(
-        final DataFormat format,
+        final FileFormat format,
         final String inputLocation,
         final Class<T> clazz
     ) {

@@ -42,7 +42,7 @@ public class DataReaderTests {
 
     // Inputs
     @Mock
-    private DataFormat format;
+    private FileFormat format;
 
     @Mock
     private PBegin pBegin;

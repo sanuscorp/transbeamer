@@ -9,9 +9,11 @@ import org.apache.beam.sdk.values.PCollection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * This {@link DataFormat} provides the ability to read and write CSV files.
+ * This {@link FileFormat} provides the ability to read and write CSV files.
+ * This implementation leverages `OpenCSV` to handle the details of CSV reading
+ * and writing.
  */
-public final class CsvFormat implements DataFormat {
+public final class CsvFormat implements FileFormat {
 
     private CsvFormat() {
         // Intentionally empty

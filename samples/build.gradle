@@ -37,35 +37,6 @@ createSampleTask(
 )
 
 createSampleTask(
-    'createParquet',
-    'com.sanuscorp.transbeamer.samples.CreateParquet'
-)
-
-createSampleTask(
-    'convertParquetToCsv',
-    'com.sanuscorp.transbeamer.samples.ConvertParquetToCsv'
-)
-tasks.named('convertParquetToCsv') {
-    dependsOn 'createParquet'
-}
-
-createSampleTask(
-    'toAvroAndParquet',
+    'convertCsvToAvroAndParquet',
     'com.sanuscorp.transbeamer.samples.ConvertCsvToAvroAndParquet'
 )
-
-createSampleTask(
-    'convertParquetToNDJson',
-    'com.sanuscorp.transbeamer.samples.ConvertParquetToNDJson'
-)
-tasks.named('convertParquetToNDJson') {
-    dependsOn 'createParquet'
-}
-
-createSampleTask(
-    'convertNDJsonToCSV',
-    'com.sanuscorp.transbeamer.samples.ConvertNDJsonToCSV'
-)
-tasks.named('convertNDJsonToCSV') {
-    dependsOn('convertParquetToNDJson')
-}

@@ -16,21 +16,28 @@ public class Welcome {
         reading and writing data in various formats,\s
         populating Avro-based PCollections as interim values.\s
         
-        This current supports the following formats:\s
+        This currently supports the following formats:\s
           - Avro\s
           - Parquet\s
           - CSV\s
           - ND-JSON\s
         
         The "samples" project provides apps that produce different\s
-        file formats in the "samples/builddirectory.\s
+        file formats in the "samples/build" directory.\s
         """);
 
-        System.out.println("\nFor Instance:");
-        System.out.println("----------------------------");
-        System.out.println("CSV ");
-        System.out.println("   => Parquet");
-        System.out.println("   => Avro");
-        System.out.println("  ./gradlew toAvroAndParquet");
+        System.out.println("""
+        
+        For Instance:
+        -----------------------------------------------------
+        See code that reads CSV, then writes out Parquet & Avro here:
+        
+          samples/src/main/java/.../ConvertCsvToAvroAndParquet.java\s
+        
+        To run that sample, run this Gradle task:
+        
+          ./gradlew convertCsvToAvroAndParquet
+        
+        """);
     }
 }
