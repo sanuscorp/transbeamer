@@ -82,7 +82,7 @@ public class AvroFormatTests {
             mockedAvroIO.when(() -> AvroIO.sink(Person.class))
                 .thenReturn(avroIOSink);
 
-            result = AvroFormat.create().getWriter(Person.class);
+            result = AvroFormat.create().getSink(Person.class);
         }
 
         @Test

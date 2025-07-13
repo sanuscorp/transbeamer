@@ -44,7 +44,7 @@ public final class ParquetFormat implements FileFormat {
     }
 
     @Override
-    public <T extends GenericRecord> FileIO.Sink<T> getWriter(
+    public <T extends GenericRecord> FileIO.Sink<T> getSink(
         final Class<T> clazz
     ) {
         return ParquetSink.of(clazz);

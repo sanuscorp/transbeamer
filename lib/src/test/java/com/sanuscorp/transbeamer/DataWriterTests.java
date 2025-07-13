@@ -71,7 +71,7 @@ class DataWriterTests {
 
         mockedFileIO.when(FileIO::write).thenReturn(fileIOWrite);
 
-        when(format.getWriter(any())).thenAnswer(invocation -> fileIOSink);
+        when(format.getSink(any())).thenAnswer(invocation -> fileIOSink);
 
         when(people.getPipeline()).thenReturn(pipeline);
 
@@ -115,7 +115,7 @@ class DataWriterTests {
 
     @Test
     void it_creates_one_FileIO_sink() {
-        verify(format).getWriter(CLASS);
+        verify(format).getSink(CLASS);
     }
 
     @Test

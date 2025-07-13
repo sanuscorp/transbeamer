@@ -3,6 +3,7 @@ package com.sanuscorp.transbeamer;
 import com.google.gson.FormattingStyle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.beam.sdk.io.FileIO;
 
@@ -19,7 +20,7 @@ import java.nio.charset.StandardCharsets;
  * how to write Newline-Delimited JSON files.
  * @param <T> The type that will be written out as ND-JSON.
  */
-public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
+public class NDJsonSink<T extends GenericRecord> implements FileIO.Sink<T> {
 
     private final Class<T> clazz;
 
@@ -27,19 +28,20 @@ public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
 
     private BufferedWriter bufferedWriter;
 
-    public NDJsonWriter(final Class<T> clazz) {
+    public NDJsonSink(final Class<T> clazz) {
         this.clazz = clazz;
     }
 
-    public static <T extends GenericRecord> NDJsonWriter<T> of(
+    public static <T extends GenericRecord> NDJsonSink<T> of(
         final Class<T> clazz
     ) {
-        return new NDJsonWriter<>(clazz);
+        return new NDJsonSink<>(clazz);
     }
 
     @Override
     public void open(final WritableByteChannel channel) {
         gson = new GsonBuilder()
+            .setStrictness(Strictness.STRICT)
             .setFormattingStyle(FormattingStyle.COMPACT)
             .create();
 
@@ -56,7 +58,7 @@ public class NDJsonWriter<T extends GenericRecord> implements FileIO.Sink<T> {
     @Override
     public void write(final T element) throws IOException {
         gson.toJson(element, clazz, bufferedWriter);
-        bufferedWriter.write("\n");
+        bufferedWriter.write(System.lineSeparator());
     }
 
     @Override

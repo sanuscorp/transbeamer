@@ -46,7 +46,7 @@ public interface FileFormat {
      * @return The writer
      * @param <T> The Avro-generated class this format will write from.
      */
-    <T extends GenericRecord> FileIO.Sink<T> getWriter(
+    <T extends GenericRecord> FileIO.Sink<T> getSink(
         Class<T> clazz
     );
 }
