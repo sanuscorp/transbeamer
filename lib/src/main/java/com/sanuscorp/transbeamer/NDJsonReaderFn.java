@@ -21,7 +21,7 @@ public final class NDJsonReaderFn<T> extends DoFn<
 
     private transient Gson gson;
 
-    private NDJsonReaderFn(final Class<T> clazz) {
+    NDJsonReaderFn(final Class<T> clazz) {
         this.clazz = clazz;
     }
 

@@ -44,7 +44,7 @@ public final class AvroFormat implements FileFormat {
     @Override
     public <
         T extends GenericRecord
-    > FileIO.Sink<T> getWriter(final Class<T> clazz) {
+    > FileIO.Sink<T> getSink(final Class<T> clazz) {
         return AvroIO.sink(clazz);
     }
 }

@@ -42,7 +42,7 @@ public final class CsvFormat implements FileFormat {
     }
 
     @Override
-    public <T extends GenericRecord> FileIO.Sink<T> getWriter(
+    public <T extends GenericRecord> FileIO.Sink<T> getSink(
         final Class<T> clazz
     ) {
         return OpenCsvSink.of(clazz);

@@ -41,9 +41,9 @@ public final class NDJsonFormat implements FileFormat {
     }
 
     @Override
-    public <T extends GenericRecord> FileIO.Sink<T> getWriter(
+    public <T extends GenericRecord> FileIO.Sink<T> getSink(
         final Class<T> clazz
     ) {
-        return NDJsonWriter.of(clazz);
+        return NDJsonSink.of(clazz);
     }
 }

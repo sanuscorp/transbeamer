@@ -52,7 +52,7 @@ public final class DataWriter<T extends GenericRecord> extends PTransform<
             writer = writer.withNumShards(this.numShards);
         }
 
-        final FileIO.Sink<T> sink = format.getWriter(clazz);
+        final FileIO.Sink<T> sink = format.getSink(clazz);
 
         LOG.debug("Writing {} instances to {}/{}*{}",
             clazz.getSimpleName(),

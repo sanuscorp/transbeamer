@@ -99,7 +99,7 @@ public class CsvFormatTests {
             mockedOpenCsvSink.when(() -> OpenCsvSink.of(any()))
                 .thenReturn(openCsvSink);
 
-            result = CsvFormat.create().getWriter(Person.class);
+            result = CsvFormat.create().getSink(Person.class);
         }
 
         @Test
