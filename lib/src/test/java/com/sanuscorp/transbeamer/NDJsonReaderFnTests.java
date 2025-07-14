@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -81,6 +82,26 @@ public class NDJsonReaderFnTests {
         @Test
         void it_outputs_one_Person_element() {
             verify(outputReceiver).output(EXPECTED_PERSON);
+        }
+    }
+
+    @Nested
+    class when_processing_two_elements {
+
+        // Inputs
+        @Mock
+        private DoFn.OutputReceiver<Person> outputReceiver;
+
+        @BeforeEach
+        void beforeEach() {
+            final NDJsonReaderFn<Person> readerFn = new NDJsonReaderFn<>(Person.class);
+            readerFn.processElement(TEST_ELEMENT, outputReceiver);
+            readerFn.processElement(TEST_ELEMENT, outputReceiver);
+        }
+
+        @Test
+        void it_outputs_two_Person_elements() {
+            verify(outputReceiver, times(2)).output(EXPECTED_PERSON);
         }
     }
 }

@@ -27,7 +27,7 @@ public final class OpenCsvReaderFn<B> extends DoFn<
 
     private final Class<B> clazz;
 
-    private OpenCsvReaderFn(final Class<B> clazz) {
+    OpenCsvReaderFn(final Class<B> clazz) {
         this.clazz = clazz;
     }
 

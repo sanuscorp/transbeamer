@@ -19,11 +19,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for the {@link DataReader} class.
+ * Unit tests for the {@link FileReader} class.
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("The DataReader Class")
-public class DataReaderTests {
+@DisplayName("The FileReader Class")
+public class FileReaderTests {
 
     // Fixtures
     private static final String INPUT_LOCATION = "input/location";
@@ -69,7 +69,7 @@ public class DataReaderTests {
                 .thenAnswer(invocation -> reader);
             when(pBegin.apply(anyString(), any())).thenReturn(people);
 
-            final DataReader<Person> reader = new DataReader<>(
+            final FileReader<Person> reader = new FileReader<>(
                 format,
                 INPUT_LOCATION,
                 CLASS
@@ -106,7 +106,7 @@ public class DataReaderTests {
                 .thenAnswer(invocation -> reader);
             when(pBegin.apply(anyString(), any())).thenReturn(people);
 
-            final DataReader<Person> reader = new DataReader<>(
+            final FileReader<Person> reader = new FileReader<>(
                 format,
                 INPUT_LOCATION + "/",
                 CLASS

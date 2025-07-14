@@ -38,18 +38,13 @@ final class ReflectUtils implements Serializable {
      * Gets the Schema from an Avro-generated class.
      * @param clazz The avro-generated class.
      * @return The Schema for clazz
+     * @throws IllegalArgumentException if we cannot get the Avro schema from
+     * the given class.
      */
     static <T extends GenericRecord> Schema getClassSchema(final Class<T> clazz) {
         try {
             final Method getClassSchema = clazz.getMethod("getClassSchema");
-            final Object schema = getClassSchema.invoke(null);
-            if (schema instanceof Schema) {
-                return (Schema) schema;
-            } else {
-                throw new IllegalArgumentException(
-                    "Expected Avro Schema but got " + schema
-                );
-            }
+            return (Schema) getClassSchema.invoke(null);
         } catch (ReflectiveOperationException roEx) {
             throw new IllegalArgumentException(
                 "'getClassSchema' cannot be invoked on " + clazz.getSimpleName(),

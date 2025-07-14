@@ -9,14 +9,14 @@ import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * This class provides the Reader transform.
+ * This class provides the FileReader transform.
  * @param <T> The element type that we will read data into.
  */
-public final class DataReader<T extends SpecificRecordBase> extends PTransform<
+public final class FileReader<T extends SpecificRecordBase> extends PTransform<
     @NonNull PBegin,
     @NonNull PCollection<T>
 > {
-    private static final Logger LOG = LogManager.getLogger(DataReader.class);
+    private static final Logger LOG = LogManager.getLogger(FileReader.class);
 
     private final String location;
 
@@ -26,7 +26,7 @@ public final class DataReader<T extends SpecificRecordBase> extends PTransform<
 
     private final Class<T> clazz;
 
-    DataReader(
+    FileReader(
         final FileFormat format,
         final String inputLocation,
         final Class<T> clazz
@@ -36,7 +36,7 @@ public final class DataReader<T extends SpecificRecordBase> extends PTransform<
         this.location = inputLocation;
     }
 
-    public DataReader<T> withFilePrefix(final String filePrefix) {
+    public FileReader<T> withFilePrefix(final String filePrefix) {
         this.filePrefix = filePrefix;
         return this;
     }
