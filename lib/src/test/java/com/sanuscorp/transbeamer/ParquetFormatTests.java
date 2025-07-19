@@ -1,7 +1,6 @@
 package com.sanuscorp.transbeamer;
 
 import com.sanuscorp.transbeamer.test.avro.Person;
-import org.apache.beam.sdk.extensions.avro.io.AvroIO;
 import org.apache.beam.sdk.io.FileIO;
 import org.apache.beam.sdk.transforms.PTransform;
 import org.apache.beam.sdk.values.PBegin;
@@ -18,57 +17,55 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 /**
- * Unit tests for the AvroFormat class.
+ * JUnit tests for the {@link ParquetFormat} class.
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("The AvroFormat Class")
-public class AvroFormatTests {
-
-    // Fixtures
-    private static final String TEST_PATTERN = "test";
+@DisplayName("The ParquetFormat Class")
+public class ParquetFormatTests {
 
     // Dependencies
     @SuppressWarnings("rawtypes")
     @Mock
-    private MockedStatic<AvroReader> mockedAvroReader;
+    private MockedStatic<ParquetReader> mockedParquetReader;
 
     @SuppressWarnings("rawtypes")
     @Mock
-    private MockedStatic<AvroIO> mockedAvroIO;
+    private MockedStatic<ParquetSink> mockedParquetSink;
 
     // Interim Values
     @Mock
-    private AvroReader<Person> avroReader;
+    private ParquetReader<Person> parquetReader;
 
     @Mock
-    private AvroIO.Sink<Person> avroIOSink;
+    private ParquetSink<Person> parquetSink;
 
     @Nested
     class when_created {
-
-        private AvroFormat result;
+        private ParquetFormat result;
 
         @BeforeEach
         void beforeEach() {
-            result = AvroFormat.create();
+            result = ParquetFormat.create();
         }
 
         @Test
         void it_returns_the_expected_name() {
-            assertThat(result.getName()).isEqualTo("Avro");
+            assertThat(result.getName()).isEqualTo("Parquet");
         }
 
         @Test
         void it_returns_the_expected_suffix() {
-            assertThat(result.getSuffix()).isEqualTo("avro");
+            assertThat(result.getSuffix()).isEqualTo("parquet");
         }
     }
 
     @Nested
-    class when_getting_the_reader {
+    class when_getting_a_reader {
 
+        public static final String PATTERN = "fake/pattern";
         private PTransform<
             @NonNull PBegin,
             @NonNull PCollection<Person>
@@ -76,45 +73,52 @@ public class AvroFormatTests {
 
         @BeforeEach
         void beforeEach() {
-            mockedAvroReader.when(() -> AvroReader.read(any(), any()))
-                .thenReturn(avroReader);
+            mockedParquetReader.when(
+                () -> ParquetReader.read(anyString(), any())
+            ).thenReturn(parquetReader);
 
-            result = AvroFormat.create().getReader(TEST_PATTERN, Person.class);
+            final ParquetFormat format = ParquetFormat.create();
+            result = format.getReader(PATTERN, Person.class);
         }
 
         @Test
         void it_creates_one_reader() {
-            mockedAvroReader.verify(() -> AvroReader.read(TEST_PATTERN, Person.class));
+            mockedParquetReader.verify(
+                () -> ParquetReader.read(PATTERN, Person.class)
+            );
         }
 
         @Test
-        void it_returns_the_reader() {
-            assertThat(result).isEqualTo(avroReader);
+        void it_returns_the_expected_reader() {
+            assertThat(result).isEqualTo(parquetReader);
         }
     }
 
     @Nested
-    class when_getting_the_writer {
+    class when_getting_a_writer {
 
         private FileIO.Sink<Person> result;
 
         @BeforeEach
         void beforeEach() {
-            mockedAvroIO.when(() -> AvroIO.sink(Person.class))
-                .thenReturn(avroIOSink);
+            mockedParquetSink.when(
+                () -> ParquetSink.of(any())
+            ).thenReturn(parquetSink);
 
-            result = AvroFormat.create().getSink(Person.class);
+            final ParquetFormat format = ParquetFormat.create();
+            result = format.getSink(Person.class);
         }
 
         @Test
         void it_creates_one_writer() {
-            mockedAvroIO.verify(() -> AvroIO.sink(Person.class));
+            mockedParquetSink.verify(
+                () -> ParquetSink.of(any())
+            );
         }
 
         @Test
-        void it_returns_the_writer() {
-            assertThat(result).isEqualTo(avroIOSink);
+        void it_returns_the_expected_writer() {
+            assertThat(result).isEqualTo(parquetSink);
         }
-
     }
 }

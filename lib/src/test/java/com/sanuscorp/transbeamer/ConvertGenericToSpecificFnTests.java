@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -104,6 +105,26 @@ public class ConvertGenericToSpecificFnTests {
         @Test
         void it_outputs_one_Person_element() {
             verify(outputReceiver).output(EXPECTED_PERSON);
+        }
+    }
+
+    @Nested
+    class when_processing_two_elements {
+
+        @Mock
+        private DoFn.OutputReceiver<Person> outputReceiver;
+
+        @BeforeEach
+        void beforeEach() {
+            final ConvertGenericToSpecificFn<Person> converter =
+                new ConvertGenericToSpecificFn<>(Person.class);
+            converter.processElement(GENERIC_PERSON, outputReceiver);
+            converter.processElement(GENERIC_PERSON, outputReceiver);
+        }
+
+        @Test
+        void it_outputs_two_Person_elements() {
+            verify(outputReceiver, times(2)).output(EXPECTED_PERSON);
         }
     }
 }

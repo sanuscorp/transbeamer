@@ -42,8 +42,8 @@ public final class OpenCsvSink<T extends GenericRecord> implements FileIO.Sink<T
     @Override
     public void open(final WritableByteChannel channel) {
         this.writer = Channels.newWriter(channel, StandardCharsets.UTF_8);
-
         final MappingStrategy<T> strategy = OpenCsvAvroMappingStrategy.of(clazz);
+
         beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
             .withMappingStrategy(strategy)
             .withOrderedResults(false)
@@ -55,14 +55,14 @@ public final class OpenCsvSink<T extends GenericRecord> implements FileIO.Sink<T
         try {
             beanToCsv.write(element);
         } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
-            throw new IOException(
-                "Failed to write CSV element", e
-            );
+            throw new IOException("Failed to write CSV element", e);
         }
     }
 
     @Override
     public void flush() throws IOException {
-        writer.close();
+        if (writer != null) {
+            writer.close();
+        }
     }
 }
