@@ -26,6 +26,11 @@ true when you end up with custom POJOs intermixed with other types.  The trade-o
 between different DTO designs are not clear.  This library exists to make one
 potential solution easy to implement: use Avro for every DTO.
 
+Describing the objects within your pipeline with [Avro Schema](https://avro.apache.org/docs/++version++/getting-started-java/#defining-a-schema)
+has a lot of benefits: broad tool support, strong typing support, builder & 
+immutability pattern support, and many others.  It serves as a good common 
+denominator in a larger, stratified data format world.
+
 ## Installation
 
 ### Maven
@@ -34,14 +39,14 @@ potential solution easy to implement: use Avro for every DTO.
 <dependency>
     <groupId>com.sanuscorp</groupId>
     <artifactId>transbeamer</artifactId>
-    <version>1.2.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.sanuscorp:transbeamer:1.2.0'
+implementation 'com.sanuscorp:transbeamer:2.0.0'
 ```
 
 ## Quick Start
@@ -53,6 +58,7 @@ To run live examples, clone this repository and run:
 ```shell
 ./gradlew welcome
 ...
+... see generated examples ...
 ```
 
 ### Example: Reading CSV Data
@@ -101,7 +107,7 @@ import org.apache.beam.sdk.values.PCollection;
 ```
 
 To read data in other formats, use one of the other `DataFormat` implementations
-(i.e. `NDJsonFormat.create()`) when creating the reader.
+(i.e. `Parquet.create()`) when creating the reader.
 
 ### Example: Writing Parquet Data
 
@@ -115,6 +121,7 @@ import com.sanuscorp.transbeamer.TransBeamer;
 import com.sanuscorp.transbeamer.samples.avro.StarWarsMovie;
 
 // ...
+    PCollection<StarWarsMovie> movies = /* created elsewhere */;
 
     movies.apply(
         TransBeamer.newWriter(
@@ -157,10 +164,10 @@ cd transbeamer
 ./gradlew build
 ```
 
-## Running Tests
+## Running Lint & Tests
 
 ```bash
-./gradlew test
+./gradlew build
 ```
 
 ## Contributing
