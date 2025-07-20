@@ -40,3 +40,13 @@ createSampleTask(
     'convertCsvToAvroAndParquet',
     'com.sanuscorp.transbeamer.samples.ConvertCsvToAvroAndParquet'
 )
+
+createSampleTask(
+    'publishCsvToPubsub',
+    'com.sanuscorp.transbeamer.samples.PublishCsvToPubsub'
+)
+
+createSampleTask(
+    'logFromPubsub',
+    'com.sanuscorp.transbeamer.samples.LogFromPubsub'
+)
