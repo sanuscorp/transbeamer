@@ -8,13 +8,13 @@ formats in Apache Beam pipelines, populating Avro-based PCollections as interim
 values.
 
 The goal of the library is to make it easy for Beam pipelines to read in any 
-text-based format into a `PCollection` backed by elements described by Avro
+data format into a `PCollection` backed by elements described by Avro
 schema.  Then, when the pipeline is done processing data, make it easy to write
-that data back out to a variety of formats.
+Avro-backed `PCollection`s back out to a variety of formats.
 
 ## Features
 
-- **Multiple Format Support**: Read and write CSV, Avro, Parquet, and NDJson formats
+- **Multiple Format Support**: Read and write CSV, Avro, Parquet, and GCP Pubsub and others
 - **Consistent Reading/Writing API**: One API for multiple formats
 - **Extensible Format Support**: Write your own formats as needed
 - **Avro-Centric**: Uses Avro as the intermediate data format for strong schema, coder support
@@ -27,7 +27,7 @@ between different DTO designs are not clear.  This library exists to make one
 potential solution easy to implement: use Avro for every DTO.
 
 Describing the objects within your pipeline with [Avro Schema](https://avro.apache.org/docs/++version++/getting-started-java/#defining-a-schema)
-has a lot of benefits: broad tool support, strong typing support, builder & 
+has a lot of benefits: broad tool support, strong typing support, builder and 
 immutability pattern support, and many others.  It serves as a good common 
 denominator in a larger, stratified data format world.
 
@@ -39,14 +39,14 @@ denominator in a larger, stratified data format world.
 <dependency>
     <groupId>com.sanuscorp</groupId>
     <artifactId>transbeamer</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'com.sanuscorp:transbeamer:2.0.0'
+implementation 'com.sanuscorp:transbeamer:2.1.0'
 ```
 
 ## Quick Start
@@ -59,7 +59,7 @@ To run live examples, clone this repository ...
 git clone https://github.com/sanuscorp/transbeamer
 ```
 
-and run:
+and run the following (with a Java 21+ JDK installed):
 
 ```shell
 cd transbeamer
@@ -92,7 +92,7 @@ reading or writing other formats (e.g., Pubsub), the location is specified in
 the format itself.  The final argument is the Avro-generated `Class` instance
 that will be used in the related `PCollection`.
 
-The API is easy to demonstrate in a few examples.
+The API is straightforward to demonstrate in a few examples.
 
 ### Example: Reading CSV Data
 
@@ -119,21 +119,13 @@ Use `TransBeamer` to create a new reader configured to read CSV from the local
 `"input"` directory with a file prefix of `"starwars"`:
 
 ```java
-import com.sanuscorp.transbeamer.CsvFormat;
-import com.sanuscorp.transbeamer.TransBeamer;
-import com.sanuscorp.transbeamer.samples.avro.StarWarsMovie;
-import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.values.PCollection;
-
-// ...
-
     Pipeline pipeline = Pipeline.create();
     PCollection<StarWarsMovie> movies = pipeline.apply(
         TransBeamer.newReader(
-            CsvFormat.create(),
-            "input",
-            StarWarsMovie.class
-        ).withFilePrefix("starwars")
+            CsvFormat.create(),      // Choose the format here
+            "input",                 // Where to read the CSV files from
+            StarWarsMovie.class      // The Avro class to use
+        ).withFilePrefix("starwars") // A prefix to filter the files on
     );
 ```
 
@@ -146,17 +138,14 @@ Assuming you already have a `PCollection` backed by Avro objects, writing them
 out is a straight-forward affair:
 
 ```java
-// ...
     PCollection<StarWarsMovie> movies = /* created elsewhere */;
     
     movies.apply(
         TransBeamer.newWriter(
-            ParquetFormat.create(),
-            "build",
-            StarWarsMovie.class
+            ParquetFormat.create(),  // The format to write
+            "build",                 // Where to write the files
+            StarWarsMovie.class      // The avro-backing class writing from
         )
-            .withNumShards(1)
-            .withFilePrefix("StarWars")
     );
 ```
 
@@ -175,10 +164,11 @@ in your GCP Project, and then ...
     );
     
     // Write each entry as a Pubsub message
+    final String myTopic = "/projects/my-project/topics/my-topic-name";
     movies.apply(
         TransBeamer.newWriter(
-            PubsubFormat.withTopic("/projects/my-project/topics/my-topic-name"), 
-            StarWarsMovie.class
+            PubsubFormat.withTopic(myTopic), // The topic to write to
+            StarWarsMovie.class              // The Avro class of "movies"
         )
     );
 ```
@@ -191,6 +181,8 @@ in your GCP Project, and then ...
 
 ## Building from Source
 
+Building requires Java 21+.
+
 ```bash
 git clone https://github.com/sanuscorp/transbeamer.git
 cd transbeamer
@@ -200,7 +192,10 @@ cd transbeamer
 ## Running Lint & Tests
 
 ```bash
-./gradlew build
+./gradlew check
+...
+./gradlew test
+...
 ```
 
 ## Contributing
