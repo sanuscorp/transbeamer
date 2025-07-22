@@ -23,7 +23,11 @@ public class TransBeamerTests {
     // Fixtures
     private static final String LOCATION = "test/location";
 
-    private static final FileFormat FORMAT = CsvFormat.create();
+    private static final FileFormat FILE_FORMAT = CsvFormat.create();
+
+    private static final DataFormat DATA_FORMAT = PubsubFormat.withTopic(
+        "fake-topic"
+    );
 
     @Nested
     class when_getting_a_new_file_reader {
@@ -52,7 +56,7 @@ public class TransBeamerTests {
             );
 
             result = TransBeamer.newReader(
-                FORMAT,
+                FILE_FORMAT,
                 LOCATION,
                 Person.class
             );
@@ -71,7 +75,7 @@ public class TransBeamerTests {
         @Test
         void it_provides_the_expected_args_to_the_file_reader() {
             assertThat(fileReaderConstructionArgs).containsExactly(
-                FORMAT,
+                FILE_FORMAT,
                 LOCATION,
                 Person.class
             );
@@ -80,6 +84,61 @@ public class TransBeamerTests {
         @Test
         void it_returns_the_constructed_reader() {
             assertThat(result).isEqualTo(fileReader);
+        }
+    }
+
+    @Nested
+    class when_getting_a_new_data_reader {
+        // Dependencies
+        @SuppressWarnings("rawtypes")
+        private MockedConstruction<DataReader> mockedDataReaderConstruction;
+
+        // Interim values
+        @Mock
+        private DataReader<Person> dataReader;
+
+        private List<Object> dataReaderConstructionArgs;
+
+        private DataReader<Person> result;
+
+        @SuppressWarnings("unchecked")
+        @BeforeEach
+        void beforeEach() {
+            mockedDataReaderConstruction = mockConstruction(
+                DataReader.class,
+                (mock, context) -> {
+                    dataReaderConstructionArgs = new ArrayList<>(context.arguments());
+                    dataReader = mock;
+                }
+            );
+
+            result = TransBeamer.newReader(
+                DATA_FORMAT,
+                Person.class
+            );
+        }
+
+        @AfterEach
+        void afterEach() {
+            mockedDataReaderConstruction.close();
+        }
+
+        @Test
+        void it_creates_one_file_reader() {
+            assertThat(mockedDataReaderConstruction.constructed()).hasSize(1);
+        }
+
+        @Test
+        void it_provides_the_expected_args_to_the_file_reader() {
+            assertThat(dataReaderConstructionArgs).containsExactly(
+                DATA_FORMAT,
+                Person.class
+            );
+        }
+
+        @Test
+        void it_returns_the_constructed_reader() {
+            assertThat(result).isEqualTo(dataReader);
         }
     }
 
@@ -109,7 +168,7 @@ public class TransBeamerTests {
             );
 
             result = TransBeamer.newWriter(
-                FORMAT,
+                FILE_FORMAT,
                 LOCATION,
                 Person.class
             );
@@ -128,7 +187,7 @@ public class TransBeamerTests {
         @Test
         void it_provides_the_expected_args_to_the_file_writer() {
             assertThat(fileWriterConstructionArgs).containsExactly(
-                FORMAT,
+                FILE_FORMAT,
                 LOCATION,
                 Person.class
             );
@@ -140,4 +199,58 @@ public class TransBeamerTests {
         }
     }
 
+    @Nested
+    class when_getting_a_new_data_writer {
+        // Dependencies
+        @SuppressWarnings("rawtypes")
+        private MockedConstruction<DataWriter> mockedDataWriterConstruction;
+
+        // Interim values
+        @Mock
+        private DataWriter<Person> dataWriter;
+
+        private List<Object> dataWriterConstructionArgs;
+
+        private DataWriter<Person> result;
+
+        @SuppressWarnings("unchecked")
+        @BeforeEach
+        void beforeEach() {
+            mockedDataWriterConstruction = mockConstruction(
+                DataWriter.class,
+                (mock, context) -> {
+                    dataWriterConstructionArgs = new ArrayList<>(context.arguments());
+                    dataWriter = mock;
+                }
+            );
+
+            result = TransBeamer.newWriter(
+                DATA_FORMAT,
+                Person.class
+            );
+        }
+
+        @AfterEach
+        void afterEach() {
+            mockedDataWriterConstruction.close();
+        }
+
+        @Test
+        void it_creates_one_file_writer() {
+            assertThat(mockedDataWriterConstruction.constructed()).hasSize(1);
+        }
+
+        @Test
+        void it_provides_the_expected_args_to_the_file_writer() {
+            assertThat(dataWriterConstructionArgs).containsExactly(
+                DATA_FORMAT,
+                Person.class
+            );
+        }
+
+        @Test
+        void it_returns_the_constructed_writer() {
+            assertThat(result).isEqualTo(dataWriter);
+        }
+    }
 }

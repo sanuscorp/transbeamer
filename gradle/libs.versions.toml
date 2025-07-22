@@ -23,6 +23,7 @@ beam-core = { module = "org.apache.beam:beam-sdks-java-core", version.ref = "apa
 beam-avro = { module = "org.apache.beam:beam-sdks-java-extensions-avro", version.ref = "apache-beam" }
 beam-direct-runner = { module = "org.apache.beam:beam-runners-direct-java", version.ref = "apache-beam" }
 beam-parquet = { module = "org.apache.beam:beam-sdks-java-io-parquet", version.ref = "apache-beam" }
+beam-gcs = { module = "org.apache.beam:beam-sdks-java-io-google-cloud-platform", version.ref = "apache-beam" }
 beam-aws-sdk = { module = "org.apache.beam:beam-sdks-java-io-amazon-web-services2", version.ref = "apache-beam" }
 beam-aws-kinesis = { module = "com.amazonaws:aws-kinesisanalytics-runtime", version = "1.2.0" }
 beam-flink-runner = { module = "org.apache.beam:beam-runners-flink-1.19", version.ref = "apache-beam" }
@@ -55,7 +56,7 @@ avro = { id = "com.github.davidmc24.gradle.plugin.avro", version.ref = "avro-plu
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow-plugin"}
 
 [bundles]
-beam = ["beam-core", "beam-avro", "beam-direct-runner", "beam-parquet", "beam-aws-sdk", "beam-flink-runner"]
+beam = ["beam-core", "beam-avro", "beam-direct-runner", "beam-parquet", "beam-aws-sdk", "beam-flink-runner", "beam-gcs"]
 hadoop = ["hadoop-common", "hadoop-mapreduce"]
 log4j = ["log4j-api", "log4j-core"]
 testing = ["junit-api", "junit-engine", "junit-params", "mockito-core", "mockito-junit", "assertj"]
